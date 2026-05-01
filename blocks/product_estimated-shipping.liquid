@@ -1,0 +1,239 @@
+<dynamic-dates
+  class="estimated-shipping{% if block.settings.icon_alignment == 'middle' %} estimated-shipping--align-center{% endif %} {{ block.settings.visibility }}"
+  data-date-format="{{ block.settings.date_format }}"
+  data-day-labels="{{ block.settings.days_labels }}"
+  data-month-labels="{{ block.settings.months_labels }}"
+  data-days-to-skip="{{ block.settings.days_to_skip | replace: ' ', '' | downcase }}"
+  data-dates-to-skip="{{ block.settings.dates_to_skip | replace: ' ', '' | downcase }}"
+  role="status"
+  aria-live="polite"
+  {{ block.shopify_attributes }}
+  style="
+    margin-top: {{ block.settings.margin_top | divided_by: 10.0 }}rem;
+    margin-bottom: {{ block.settings.margin_bottom | divided_by: 10.0 }}rem;
+  "
+>
+  {% unless block.settings.custom_icon == blank and block.settings.icon == blank %}
+    <div class="estimated-shipping__icon estimated-shipping__icon--{{ block.settings.icon_size }}">
+      {% if block.settings.custom_icon != blank %}
+        <img
+          src="{{ block.settings.custom_icon | image_url: width: 150 }}"
+          width="auto"
+          height="auto"
+          loading="lazy"
+        >
+      {% else %}
+        {% render 'material-icon', icon: block.settings.icon, filled: block.settings.filled_icon %}
+      {% endif %}
+    </div>
+  {% endunless %}
+  <div
+    class="estimated-shipping__text"
+    data-dynamic-date="true"
+    data-text="{{ block.settings.message }}"
+    data-min-days="{{ block.settings.min_shipping_days }}"
+    data-max-days="{{ block.settings.max_shipping_days }}"
+  >
+    {{ block.settings.message | replace: '[start_date]', '-' | replace: '[end_date]', '-' }}
+  </div>
+</dynamic-dates>
+
+{% schema %}
+{
+  "name": "Estimated shipping",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "visibility",
+      "options": [
+        {
+          "value": "desktop-hidden",
+          "label": "Mobile only"
+        },
+        {
+          "value": "mobile-hidden",
+          "label": "Desktop only"
+        },
+        {
+          "value": "always-display",
+          "label": "All devices"
+        }
+      ],
+      "label": "Display on",
+      "default": "always-display"
+    },
+    {
+      "type": "header",
+      "content": "Icon & text"
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "default": "local_shipping",
+      "label": "Icon",
+      "info": "[View all available icons](https:\/\/fonts.google.com\/icons?icon.set=Material+Symbols&icon.platform=web)."
+    },
+    {
+      "type": "checkbox",
+      "id": "filled_icon",
+      "default": false,
+      "label": "Filled icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "Custom icon"
+    },
+    {
+      "type": "select",
+      "id": "icon_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Icon size"
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "middle",
+          "label": "Middle"
+        }
+      ],
+      "default": "top",
+      "label": "Icon alignment"
+    },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Text",
+      "default": "<p>Get it between <strong>[start_date]</strong> and <strong>[end_date]</strong>.</p>",
+      "info": "Use [start_date] to display the earliest date the package can arrive and [end_date] to display the latest date the package can arrive."
+    },
+    {
+      "type": "header",
+      "content": "Shipping"
+    },
+    {
+      "type": "number",
+      "id": "min_shipping_days",
+      "label": "Minimum shipping days",
+      "default": 7
+    },
+    {
+      "type": "number",
+      "id": "max_shipping_days",
+      "label": "Maximum shipping days",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "date_format",
+      "label": "Date format",
+      "options": [
+        {
+          "value": "day_mm_dd",
+          "label": "Monday, February 1st"
+        },
+        {
+          "value": "day_dd_mm",
+          "label": "Monday, 1. February"
+        },
+        {
+          "value": "mm_dd",
+          "label": "February 1st"
+        },
+        {
+          "value": "dd_mm",
+          "label": "1. February"
+        },
+        {
+          "value": "dd_mm_no_dot",
+          "label": "1 February"
+        },
+        {
+          "value": "day_dd_mm_numeric",
+          "label": "Monday, 01. 02."
+        },
+        {
+          "value": "dd_mm_numeric",
+          "label": "01. 02."
+        }
+      ],
+      "default": "day_mm_dd"
+    },
+    {
+      "type": "text",
+      "id": "days_labels",
+      "label": "Day labels",
+      "default": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday"
+    },
+    {
+      "type": "text",
+      "id": "months_labels",
+      "label": "Month labels",
+      "default": "January, February, March, April, May, June, July, August, September, October, November, December"
+    },
+    {
+      "type": "text",
+      "id": "days_to_skip",
+      "label": "Week days to skip",
+      "info": "Enter the names of days to skip. If there are multiple days to skip, separate them with commas. Available days to use: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday. Example usage if you want to skip weekends: \"Saturday, Sunday\"."
+    },
+    {
+      "type": "text",
+      "id": "dates_to_skip",
+      "label": "Specific dates to skip",
+      "info": "Enter the exact dates to skip. If there are multiple dates to skip, separate them with commas. The date has to be in this format: MM-DD. Example usage if you want to skip Christmass & New Years: \"12-25, 12-31, 01-01\"."
+    },
+    {
+      "type": "header",
+      "content": "Margins"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top",
+      "min": 0,
+      "max": 45,
+      "step": 3,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 45,
+      "step": 3,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Estimated shipping",
+      "category": "Shipping information"
+    }
+  ]
+}
+{% endschema %}
