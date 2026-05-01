@@ -1,0 +1,19 @@
+# Shrine Pro Theme — Theme Check Configuration
+# These files use intentional dynamic HTML tag patterns (e.g. <{% if %}tag{% else %}tag2{% endif %}>)
+# that are valid at runtime but cannot be statically parsed by theme-check.
+
+LiquidHTMLSyntaxError:
+  enabled: true
+  ignore:
+    - blocks/product_bundle-offer.liquid
+    - blocks/product_sticky-atc.liquid
+    - blocks/review-avatars.liquid
+    - sections/header.liquid
+    - sections/logo-list.liquid
+    - sections/results.liquid
+    - snippets/bundle-offer.liquid
+    - snippets/cart-drawer.liquid
+    - snippets/facet-block.liquid
+    - snippets/header-logo.liquid
+    - snippets/review-avatars.liquid
+    - snippets/upsell-block.liquid

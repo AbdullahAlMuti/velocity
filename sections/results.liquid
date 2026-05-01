@@ -183,6 +183,7 @@
               assign delay = delay | plus: settings.animation_duration
             endif
           %}
+          {% # theme-check-disable LiquidHTMLSyntaxError %}
           <{% if section.settings.enable_animations %}results-container{% else %}div{% endif %}
             class="results__rows-container display-block"
             data-style="{{ section.settings.style }}"
@@ -276,6 +277,7 @@
               </div>
             {%- endfor -%}
           </{% if section.settings.enable_animations %}results-container{% else %}div{% endif %}>
+          {% # theme-check-enable LiquidHTMLSyntaxError %}
           {%- unless section.settings.caption == blank -%}
             <div class="results__caption">
               {{ section.settings.caption }}

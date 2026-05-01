@@ -31,6 +31,7 @@
   endif
 %}
 
+{% # theme-check-disable LiquidHTMLSyntaxError %}
 <{% if is_recommendation %}product-recommendations{% else %}div{% endif %}
   class='{{ type }}-upsells-container upsells-container{% if item_count > 1 and block.settings.stacking == 'column' %} upsells-container--stacked-columns{% endif %}{% if item_count > 1 and block.settings.stacking == 'slider' %} side-margins-negative{% endif %}{% if is_recommendation %} display-block{% endif %}'
   style="
@@ -388,6 +389,7 @@
       </splide-component>
     {% endif %}
 </{% if is_recommendation %}product-recommendations{% else %}div{% endif %}>
+{% # theme-check-enable LiquidHTMLSyntaxError %}
 
 {% if product_list.count == hidden_products and product_list.count > 0 %}
   <style>

@@ -84,6 +84,7 @@
         </div>
         {%- if block.settings.mobile_variant_picker or block.settings.desktop_variant_picker -%}
           {% unless product.has_only_default_variant %}
+            {% # theme-check-disable LiquidHTMLSyntaxError %}
             <secondary-variant-select{% if block.settings.picker_type == 'separate' %}-separate{% endif %}
               id="StickyAtcVariantPicker-{{ section.id }}"
               class="sticky-atc__picker--{{ block.settings.picker_type }} no-js-hidden{% unless block.settings.mobile_variant_picker %} mobile-hidden{% endunless %}{% unless block.settings.desktop_variant_picker %} desktop-hidden{% endunless %}"
@@ -191,6 +192,7 @@
                 {{ product.variants | json }}
             </script>
           </secondary-variant-select{% if block.settings.picker_type == 'separate' %}-separate{% endif %}>
+            {% # theme-check-enable LiquidHTMLSyntaxError %}
         {% endunless %}
       {%- endif -%}
     </div>
