@@ -154,6 +154,8 @@
                                   <img
                                     class="cart-item__image"
                                     src="{{ item.image | image_url: width: 300 }}"
+                                    srcset="{{ item.image | image_url: width: 150 }} 150w, {{ item.image | image_url: width: 300 }} 300w"
+                                    sizes="(max-width: 749px) 80px, 150px"
                                     alt="{{ item.image.alt | escape }}"
                                     loading="lazy"
                                     width="150"

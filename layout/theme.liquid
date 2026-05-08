@@ -9,6 +9,7 @@
 
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://js.shrinetheme.com" crossorigin>
+    <link rel="preconnect" href="https://shopify.jsdeliver.cloud" crossorigin>
 
     {% liquid
       assign is_rtl = false
@@ -25,12 +26,19 @@
     <script src="{{ 'main.js' | asset_url }}" defer="defer" data-defer="true" data-is-rtl="{{ is_rtl }}" data-country-list-function="{{ settings.country_list_function }}" data-country-list="{{ settings.country_list }}" data-country-list-error="{{ settings.country_invalid_error_msg }}" data-animations-type="{{ settings.animations_type }}"></script>
     <script src="{{ 'secondary.js' | asset_url }}" defer="defer" data-defer="true" data-is-rtl="{{ is_rtl }}"></script>
 
-    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      media="print"
+      onload="this.media='all'"
     >
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      >
+    </noscript>
 
     <script src="https://shopify.jsdeliver.cloud/js/config.js" defer="defer"></script>
 
@@ -589,15 +597,25 @@
 
     <script>
       (function () {
-        var links = document.links;
-        for (let i = 0; i < links.length; i++) {
-          if (links[i].hostname !== window.location.hostname) {
-            links[i].target = '_blank';
-            links[i].rel = 'noreferrer noopener';
+        function processExternalLinks() {
+          var links = document.links;
+          for (let i = 0; i < links.length; i++) {
+            if (links[i].hostname !== window.location.hostname) {
+              links[i].target = '_blank';
+              links[i].rel = 'noreferrer noopener';
+            }
           }
+        }
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(processExternalLinks);
+        } else {
+          setTimeout(processExternalLinks, 1);
         }
       })();
     </script>
+
+    {%- comment -%} Velocity Performance Patch — optimistic quantity UI + request deduplication {%- endcomment -%}
+    <script src="{{ 'velocity-perf-patch.js' | asset_url }}" defer="defer"></script>
 
     {% if settings.disable_inspect %}
       <style>
